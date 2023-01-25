@@ -155,4 +155,15 @@ from card
 join customer c on card.customer_id = c.id
 where card.expiration_date between now() and date_add(now(), interval 1 year);
 
-#19
+#19 month incoming transactions sum
+select concat(first_name, ' ', last_name) as full_name, round(sum(it.sum), 2) as received
+from customer
+inner join card c on customer.id = c.customer_id
+inner join incoming_transaction it on c.id = it.card_id
+group by customer.id;
+
+#20 last loans
+select concat(first_name, ' ', last_name) as full_name, credit_score, total_months_paid
+from customer
+inner join loan l on customer.id = l.customer_id
+where total_months_paid <= 12;
